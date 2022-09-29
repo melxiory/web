@@ -2,4 +2,4 @@
   sudo rm -rf /etc/nginx/sites-enabled/default
   sudo /etc/init.d/nginx restart
   
-  sudo gunicorn --bind='0.0.0.0:8080' hello:application
+  sudo gunicorn --bind 0.0.0.0:8000 --access-logfile acc.log --error-logfile err.log ask.wsgi:application 
