@@ -2,4 +2,4 @@
   sudo rm -rf /etc/nginx/sites-enabled/default
   sudo /etc/init.d/nginx restart
   
-  sudo gunicorn --bind 0.0.0.0:8000 ask.ask.wsgi:application &
+  sudo gunicorn --bind 0.0.0.0:8000 ask.ask.wsgi:application&
