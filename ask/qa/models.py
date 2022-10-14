@@ -9,8 +9,18 @@ class QuestionManager(models.Manager):
   def popular(self):
     return self.order_by('-rating')
   
-added_at = models.DateTimeField(auto_now_add=True)
-rating = models.IntegerField(default=0)
-likes = models.ManyToManyField(User, related_name='question_like_user')
-author = models.ForeignKey(User, on_delete=models.CASCADE)
-# Create your models here.
+class Question(models.Model):
+  objects = QuestionManager()
+  title =  models.CharField(max_length=255)
+  text = models.TextField()
+  added_at = models.DateTimeField(auto_now_add=True)
+  rating = models.IntegerField(default=0)
+  likes = models.ManyToManyField(User, related_name='question_like_user')
+  author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class Answer(models.Model):
+  text = models.TextField()
+  added_at = models.DateTimeField(auto_now_add=True)
+  author = models.ForeignKey(User, on_delete=models.CASCADE)
+  user=User.objects.get_or_create(username='x', defaults={'password': 'y'})[0] 
+  question = Question(title='qwe', text='qwe', author=user)
