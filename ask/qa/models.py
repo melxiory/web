@@ -24,5 +24,5 @@ class Answer(models.Model):
   author = models.ForeignKey(User, on_delete=models.CASCADE)
   user, _ = User.objects.get_or_create(                                   
             username='x',                                                       
-            defaults={'password':'y', 'last_login': timezone.now()})
+            defaults={'password':'y'})
   question = Question(title='qwe', text='qwe', author=user)
