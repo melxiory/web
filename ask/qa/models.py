@@ -22,5 +22,5 @@ class Answer(models.Model):
   text = models.TextField()
   added_at = models.DateTimeField(auto_now_add=True)
   author = models.ForeignKey(User, on_delete=models.CASCADE)
-  user=User.objects.get_or_create(username='x', defaults={'password': 'y'})[0] 
+  user=User.objects.get_or_create(username='box', defaults={'password': '1234'})[0] 
   question = Question(title='qwe', text='qwe', author=user)
