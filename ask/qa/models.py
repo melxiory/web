@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone 
 
 class QuestionManager(models.Manager):
   def new(self):
@@ -24,5 +25,5 @@ class Answer(models.Model):
   author = models.ForeignKey(User, on_delete=models.CASCADE)
   user, _ = User.objects.get_or_create(                                   
             username='x',                                                       
-            defaults={'password':'y'})
+            defaults={'password':'y', 'last_login': timezone.now()}) 
   question = Question(title='qwe', text='qwe', author=user)
