@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from qa.views import test
+from qa.views import test, question, popular
 
 urlpatterns = [ 
   url(r'^', main), 
