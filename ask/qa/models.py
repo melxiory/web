@@ -1,26 +1,38 @@
-from __future__ import unicode_literals
-
 from django.db import models
+from datetime import date
 from django.contrib.auth.models import User
-from django.utils import timezone 
+from django.urls import reverse
 
 class QuestionManager(models.Manager):
-  def new(self):
-    return self.order_by('-added_at')
-  def popular(self):
-    return self.order_by('-rating')
-  
+    def new(self):
+        return super(QuestionManager, self).get_queryset().order_by('-id')
+    def popular(self):
+        return super(QuestionManager, self).get_queryset().annotate(models.Count('likes')).order_by('likes__count')
+
+
 class Question(models.Model):
-  objects = QuestionManager()
-  title =  models.CharField(max_length=255)
-  text = models.TextField()
-  added_at = models.DateTimeField(auto_now_add=True)
-  rating = models.IntegerField(default=0)
-  likes = models.ManyToManyField(User, related_name='question_like_user')
-  author = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255, default='')
+    text = models.TextField(max_length=255, default='')
+    added_at = models.DateTimeField(auto_now_add=True)
+    rating = models.IntegerField(null=True)
+
+    author = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    likes = models.ManyToManyField(User, related_name='question_like_user')
+
+    def __unicode__(self):
+        return self.title
+
+    def get_url(self):
+        return reverse('question', args=[self.pk, ])
+
+    objects = QuestionManager()
 
 class Answer(models.Model):
-  text = models.TextField()
-  added_at = models.DateTimeField(auto_now_add=True)
-  author = models.ForeignKey(User, on_delete=models.CASCADE)
-  question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    text = models.TextField(max_length=255, default='')
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    question = models.ForeignKey(Question, null=True, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+
+#    def __unicode__(self):
+#        return self.text
