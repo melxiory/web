@@ -6,3 +6,4 @@
   
   cd ask/
   sudo gunicorn --bind 0.0.0.0:8000 ask.wsgi:application&
+  cd ..
